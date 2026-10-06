@@ -1,0 +1,14 @@
+{
+  "$schema": "https://heroui.com/schema.json",
+  "style": "default",
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "zinc"
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui"
+  }
+}
