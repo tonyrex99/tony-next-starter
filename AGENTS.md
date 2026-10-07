@@ -48,13 +48,13 @@ Does the state originate from a backend API?
 
 ## 3. API Contract & Codegen Rules
 
-1. **Single Source of Truth**: The OpenAPI specification lives at `openapi/spec.json` (or configured URL via `OPENAPI_SPEC_URL`).
+1. **Single Source of Truth**: The OpenAPI specification is resolved dynamically from CLI arguments (`pnpm api:generate <url-or-path>`), `OPENAPI_SPEC_URL`, `OPENAPI_SPEC_PATH`, `OPENAPI_SPEC`, or `./openapi/spec.json`.
 2. **Disposable Generated Code**: Hey API produces `src/lib/api/generated/`.
 3. **NEVER Manually Edit Generated Files**: Any file inside `src/lib/api/generated/` is strictly generated. Manual edits will be rejected by `pnpm api:check`.
 4. **Colocated Query Key Factories**:
    - Every feature using TanStack Query MUST define a colocated query-key factory in `src/features/<feature>/queries/<feature>.keys.ts`.
    - Do NOT create global query key files like `src/lib/query-keys.ts`.
-5. **Regeneration Workflow**: Run `pnpm api:generate` explicitly. Check freshness using `pnpm api:check`.
+5. **Regeneration Workflow**: Run `pnpm api:generate` (supports direct URLs or `--save <url>`). Check freshness using `pnpm api:check`.
 
 ---
 

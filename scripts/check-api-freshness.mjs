@@ -13,6 +13,44 @@ function cleanDir(dir) {
   }
 }
 
+function loadEnvFile(filePath) {
+  if (fs.existsSync(filePath)) {
+    try {
+      const content = fs.readFileSync(filePath, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eqIdx = trimmed.indexOf("=");
+        if (eqIdx !== -1) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if (
+            (val.startsWith('"') && val.endsWith('"')) ||
+            (val.startsWith("'") && val.endsWith("'"))
+          ) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[key]) {
+            process.env[key] = val;
+          }
+        }
+      }
+    } catch {
+      // Ignore reading error
+    }
+  }
+}
+
+loadEnvFile(".env.local");
+loadEnvFile(".env");
+
+const resolvedInput =
+  process.env.OPENAPI_SPEC_INPUT ||
+  process.env.OPENAPI_SPEC_URL ||
+  process.env.OPENAPI_SPEC_PATH ||
+  process.env.OPENAPI_SPEC ||
+  "./openapi/spec.json";
+
 try {
   cleanDir(tempDir);
   fs.mkdirSync(tempDir, { recursive: true });
@@ -22,7 +60,7 @@ try {
   const tempConfigContent = `import { defineConfig } from "@hey-api/openapi-ts";
 
 export default defineConfig({
-  input: process.env.OPENAPI_SPEC_PATH || "./openapi/spec.json",
+  input: "${resolvedInput.replace(/\\/g, "/")}",
   output: {
     path: "${normalizedTempDir}",
   },

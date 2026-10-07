@@ -3,6 +3,8 @@ import { z } from "zod";
 const serverEnvSchema = z.object({
   API_URL: z.string().url().default("http://localhost:3000/api"),
   OPENAPI_SPEC_PATH: z.string().default("./openapi/spec.json"),
+  OPENAPI_SPEC_URL: z.string().url().optional(),
+  OPENAPI_SPEC: z.string().optional(),
   AUTH_SECRET: z.string().min(16).default("super-secret-development-key-min-32-chars"),
 });
 
@@ -14,6 +16,8 @@ const clientEnvSchema = z.object({
 export const serverEnv = serverEnvSchema.parse({
   API_URL: process.env.API_URL,
   OPENAPI_SPEC_PATH: process.env.OPENAPI_SPEC_PATH,
+  OPENAPI_SPEC_URL: process.env.OPENAPI_SPEC_URL,
+  OPENAPI_SPEC: process.env.OPENAPI_SPEC,
   AUTH_SECRET: process.env.AUTH_SECRET,
 });
 

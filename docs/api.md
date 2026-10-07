@@ -34,17 +34,28 @@ Feature Components (Fully typed props, inputs, and DTOs)
 Hey API configuration defines the input specification, the client fetcher plugin, and the generated target directory:
 
 ```ts
+import fs from "node:fs";
 import { defineConfig } from "@hey-api/openapi-ts";
 
+// Automatically loads .env.local and .env
+// Supports OPENAPI_SPEC_INPUT, OPENAPI_SPEC_URL, OPENAPI_SPEC_PATH, OPENAPI_SPEC
+const input =
+  process.env.OPENAPI_SPEC_INPUT ||
+  process.env.OPENAPI_SPEC_URL ||
+  process.env.OPENAPI_SPEC_PATH ||
+  process.env.OPENAPI_SPEC ||
+  "./openapi/spec.json";
+
 export default defineConfig({
-  input: process.env.OPENAPI_SPEC_PATH || "openapi/spec.json",
-  output: "src/lib/api/generated",
+  input,
+  output: {
+    path: "./src/lib/api/generated",
+  },
   plugins: [
     "@hey-api/client-fetch",
     "@hey-api/schemas",
     {
       name: "@hey-api/sdk",
-      asClass: false,
     },
     {
       name: "@hey-api/typescript",
@@ -95,10 +106,33 @@ queryClient.invalidateQueries({ queryKey: exampleKeys.lists() });
 
 ### API Codegen
 
-To regenerate the TypeScript API client and types from the OpenAPI specification:
+The starter supports generating directly from a local file, a remote URL, or environment variables:
 
 ```bash
+# 1. Default: reads OPENAPI_SPEC_URL, OPENAPI_SPEC_PATH, or ./openapi/spec.json
 pnpm api:generate
+
+# 2. Provide a remote HTTP/HTTPS URL directly
+pnpm api:generate https://api.example.com/openapi.json
+
+# 3. Provide a custom local file path directly
+pnpm api:generate ./custom-spec.json
+
+# 4. Fetch remote spec AND save/sync a copy to ./openapi/spec.json for offline team use
+pnpm api:generate --save https://api.example.com/openapi.json
+```
+
+#### Environment Variables in `.env.local`:
+
+```env
+# Point to a remote backend URL:
+OPENAPI_SPEC_URL=http://localhost:3001/openapi.json
+
+# Or point to an alternative local spec:
+OPENAPI_SPEC_PATH=./specs/v1.json
+
+# Or generic spec locator:
+OPENAPI_SPEC=https://api.example.com/openapi.json
 ```
 
 ### Stale Code Verification

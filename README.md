@@ -90,8 +90,11 @@ pnpm typecheck       # Run strict TypeScript compiler check (noEmit)
 ### API Codegen & Freshness Verification
 
 ```bash
-pnpm api:generate    # Generate TypeScript client from OpenAPI spec
-pnpm api:check       # Verify generated code matches OpenAPI spec without modifying working tree
+pnpm api:generate                           # Generate from OPENAPI_SPEC_URL, OPENAPI_SPEC_PATH, or ./openapi/spec.json
+pnpm api:generate https://api.com/spec.json # Generate directly from a remote HTTP/HTTPS URL
+pnpm api:generate ./custom/spec.json        # Generate directly from a custom local path
+pnpm api:generate --save https://...        # Generate and save a local copy to ./openapi/spec.json
+pnpm api:check                              # Verify generated code matches OpenAPI spec without modifying working tree
 ```
 
 ### Unit & Component Testing
