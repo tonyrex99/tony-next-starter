@@ -43,7 +43,7 @@ export default defineConfig({
 
   console.log("Checking API client freshness against OpenAPI specification...");
 
-  execSync(`npx openapi-ts -f "${tempConfigPath.replace(/\\/g, "/")}"`, { stdio: "pipe" });
+  execSync(`pnpm exec openapi-ts -f "${tempConfigPath.replace(/\\/g, "/")}"`, { stdio: "pipe" });
 
   if (!fs.existsSync(generatedDir)) {
     console.error(

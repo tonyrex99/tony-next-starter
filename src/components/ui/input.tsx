@@ -51,7 +51,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input
           ref={ref}
-          value={value}
+          {...(value !== undefined ? { value } : {})}
           onChange={handleChange}
           className={cn(
             "w-full rounded-xl border bg-content1 text-foreground transition-colors placeholder:text-default-400 focus:outline-none focus:ring-1",

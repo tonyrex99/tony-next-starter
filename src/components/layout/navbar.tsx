@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Moon, Sun, Layers } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -9,8 +10,13 @@ import { useAppStore } from "@/stores/app.store";
 import { mockUserSession } from "@/lib/auth/session";
 
 export function Navbar() {
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-default-200 bg-background/80 px-4 backdrop-blur-md sm:px-6">
@@ -41,7 +47,7 @@ export function Navbar() {
           aria-label="Toggle theme"
           onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          {mounted && theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
 
         <div className="flex items-center gap-2 pl-2 border-l border-default-200">

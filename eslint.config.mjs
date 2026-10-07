@@ -1,7 +1,6 @@
 import nextConfig from "eslint-config-next";
 
 const eslintConfig = [
-  ...nextConfig,
   {
     ignores: [
       ".next/**",
@@ -11,8 +10,10 @@ const eslintConfig = [
       "coverage/**",
       "storybook-static/**",
       "src/lib/api/generated/**",
+      "docs/**",
     ],
   },
+  ...nextConfig,
 ];
 
 export default eslintConfig;
