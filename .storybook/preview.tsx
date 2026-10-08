@@ -4,8 +4,8 @@ import "../src/app/globals.css";
 
 // Polyfill process in browser environment for Next.js internal modules
 if (typeof window !== "undefined") {
-  // @ts-expect-error polyfill process for browser environment
-  window.process = window.process || { env: {} };
+  (window as unknown as { process?: unknown }).process =
+    (window as unknown as { process?: unknown }).process || { env: {} };
 }
 
 const preview: Preview = {
