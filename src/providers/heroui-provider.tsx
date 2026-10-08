@@ -9,7 +9,14 @@ export interface HeroUIProviderProps {
 }
 
 export function HeroUIProvider({ children }: HeroUIProviderProps) {
-  const router = useRouter();
+  let navigate: ((to: string) => void) | undefined;
+  try {
+    // Safe fallback when executed outside Next.js App Router (e.g. Storybook / Vitest)
+    const router = useRouter();
+    navigate = router?.push;
+  } catch {
+    navigate = undefined;
+  }
 
-  return <RouterProvider navigate={router.push}>{children}</RouterProvider>;
+  return <RouterProvider navigate={navigate}>{children}</RouterProvider>;
 }

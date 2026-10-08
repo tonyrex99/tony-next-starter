@@ -11,6 +11,15 @@ const config: StorybookConfig = {
     const { default: tsconfigPaths } = await import("vite-tsconfig-paths");
     config.plugins = config.plugins || [];
     config.plugins.push(tsconfigPaths());
+
+    config.define = {
+      ...config.define,
+      "process.env": "{}",
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
+      process: "({ env: {} })",
+      global: "window",
+    };
+
     return config;
   },
 };
