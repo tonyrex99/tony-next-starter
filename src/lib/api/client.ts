@@ -8,3 +8,5 @@ client.setConfig({
 
 export { client as apiClient };
 export * from "./generated";
+export * from "./generated/zod.gen";
+export * from "./generated/@tanstack/react-query.gen";

@@ -61,24 +61,103 @@ export default defineConfig({
       name: "@hey-api/typescript",
       enums: "javascript",
     },
+    "zod",
+    "@tanstack/react-query",
   ],
 });
 ```
 
 ---
 
-## 3. Client & Server API Configuration
+## 3. Generated Artifacts & Capabilities
+
+Running `pnpm api:generate` produces the following artifacts in `src/lib/api/generated/`:
+
+| File                           | Purpose                                    | Key Exports                                                                   |
+| ------------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `sdk.gen.ts`                   | Fully-typed fetch SDK functions            | `getItems()`, `getItemById()`, `createItem()`, `updateItem()`, `deleteItem()` |
+| `types.gen.ts`                 | Compile-time TypeScript DTOs & requests    | `Item`, `CreateItemRequest`, `ItemListResponse`, `GetItemsData`               |
+| `schemas.gen.ts`               | Raw OpenAPI JSON schema definitions        | `ItemSchema`, `CreateItemRequestSchema`                                       |
+| `zod.gen.ts`                   | Runtime Zod validation schemas             | `zItem`, `zCreateItemRequest`, `zUpdateItemRequest`, `zItemListResponse`      |
+| `@tanstack/react-query.gen.ts` | Type-safe TanStack Query v5 options & keys | `getItemsOptions()`, `getItemsQueryKey()`, `createItemMutation()`             |
+| `client.gen.ts`                | Configurable base client instance          | `client`                                                                      |
+
+### Using Generated Zod Schemas (`zod.gen.ts`)
+
+The `zod` plugin generates runtime Zod schemas matching every OpenAPI model and operation request/response. You can import them directly from `@/lib/api/client` or `@/lib/api/generated/zod.gen`:
+
+```ts
+import { zCreateItemRequest, type CreateItemRequest } from "@/lib/api/client";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Use directly with React Hook Form
+const form = useForm<CreateItemRequest>({
+  resolver: zodResolver(zCreateItemRequest),
+  defaultValues: {
+    name: "",
+    category: "general",
+    amount: 0,
+    status: "active",
+  },
+});
+
+// Or validate external data safely at runtime
+const result = zCreateItemRequest.safeParse(untrustedData);
+if (!result.success) {
+  console.error(result.error.flatten());
+}
+```
+
+### Using Generated TanStack React Query Options (`@tanstack/react-query.gen.ts`)
+
+The `@tanstack/react-query` plugin generates standard TanStack Query v5 `queryOptions`, `infiniteQueryOptions`, and mutation helpers:
+
+```ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getItemsOptions, getItemsQueryKey, createItemMutation } from "@/lib/api/client";
+
+// In your feature component or custom hook:
+export function useItemsList(page = 1, limit = 10) {
+  return useQuery(
+    getItemsOptions({
+      query: { page, limit },
+    })
+  );
+}
+
+// In a mutation hook:
+export function useCreateItem() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    ...createItemMutation(),
+    onSuccess: () => {
+      // Invalidate using generated query key
+      queryClient.invalidateQueries({
+        queryKey: getItemsQueryKey(),
+      });
+    },
+  });
+}
+```
+
+> **Note:** Feature code can use either the generated `@tanstack/react-query` options or feature-colocated query key factories (`src/features/<feature>/queries/<feature>.keys.ts`) depending on customization requirements.
+
+---
+
+## 4. Client & Server API Configuration
 
 The base fetch client is configured centrally in `src/lib/api/client.ts` and `src/lib/api/server.ts`:
 
-- `src/lib/api/client.ts`: Configures the browser HTTP client with the public base URL (`NEXT_PUBLIC_API_URL` or `/api`), request headers, and client-side authentication tokens.
+- `src/lib/api/client.ts`: Configures the browser HTTP client with the public base URL (`NEXT_PUBLIC_APP_URL/api`), request headers, client-side authentication tokens, and re-exports SDK, types, Zod schemas, and TanStack Query options.
 - `src/lib/api/server.ts`: Configures server-side HTTP calls inside Server Components, Route Handlers, or Server Actions with server-only headers (`API_SECRET`, authorization cookies).
 
 Features **never** configure their own raw HTTP fetch clients; they consume generated SDK operations through feature query wrappers.
 
 ---
 
-## 4. Query Key Factories
+## 5. Query Key Factories
 
 Every feature using TanStack Query defines its own query-key factory colocated with the feature:
 
@@ -102,7 +181,7 @@ queryClient.invalidateQueries({ queryKey: exampleKeys.lists() });
 
 ---
 
-## 5. Explicit Developer Commands
+## 6. Explicit Developer Commands
 
 ### API Codegen
 
@@ -154,7 +233,7 @@ This check runs automatically in CI.
 
 ---
 
-## 6. Strict Rules & Golden Directives
+## 7. Strict Rules & Golden Directives
 
 - ⚠️ **NEVER manually edit `src/lib/api/generated/`**: Any file in this folder is generated and disposable. Manual changes will be overwritten or cause CI to fail.
 - ⚠️ **Do not run `api:generate` implicitly**: API generation must never run silently inside `pnpm lint` or `pnpm test`. It is an intentional, explicit developer action.

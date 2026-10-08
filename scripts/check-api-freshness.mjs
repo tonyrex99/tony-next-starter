@@ -74,6 +74,8 @@ export default defineConfig({
       name: "@hey-api/typescript",
       enums: "javascript",
     },
+    "zod",
+    "@tanstack/react-query",
   ],
 });
 `;

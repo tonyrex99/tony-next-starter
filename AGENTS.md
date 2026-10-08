@@ -49,10 +49,10 @@ Does the state originate from a backend API?
 ## 3. API Contract & Codegen Rules
 
 1. **Single Source of Truth**: The OpenAPI specification is resolved dynamically from CLI arguments (`pnpm api:generate <url-or-path>`), `OPENAPI_SPEC_URL`, `OPENAPI_SPEC_PATH`, `OPENAPI_SPEC`, or `./openapi/spec.json`.
-2. **Disposable Generated Code**: Hey API produces `src/lib/api/generated/`.
+2. **Disposable Generated Code**: Hey API produces `src/lib/api/generated/` including `sdk.gen.ts`, `types.gen.ts`, runtime schemas in `zod.gen.ts`, and query/mutation options in `@tanstack/react-query.gen.ts`. Re-exported from `@/lib/api/client`.
 3. **NEVER Manually Edit Generated Files**: Any file inside `src/lib/api/generated/` is strictly generated. Manual edits will be rejected by `pnpm api:check`.
 4. **Colocated Query Key Factories**:
-   - Every feature using TanStack Query MUST define a colocated query-key factory in `src/features/<feature>/queries/<feature>.keys.ts`.
+   - Every feature using custom query keys can define a colocated query-key factory in `src/features/<feature>/queries/<feature>.keys.ts` or leverage the generated `@tanstack/react-query` query options.
    - Do NOT create global query key files like `src/lib/query-keys.ts`.
 5. **Regeneration Workflow**: Run `pnpm api:generate` (supports direct URLs or `--save <url>`). Check freshness using `pnpm api:check`.
 

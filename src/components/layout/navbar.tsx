@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Menu, Moon, Sun, Layers } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -9,14 +9,16 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { useAppStore } from "@/stores/app.store";
 import { mockUserSession } from "@/lib/auth/session";
 
+const emptySubscribe = () => () => {};
+
 export function Navbar() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const { theme, setTheme } = useTheme();
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-default-200 bg-background/80 px-4 backdrop-blur-md sm:px-6">

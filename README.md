@@ -16,7 +16,7 @@ Built with a **hybrid feature-oriented architecture**, strict separation of serv
 - **URL State**: [nuqs v2](https://nuqs.47ng.com/)
 - **Data Tables**: [TanStack Table v8](https://tanstack.com/table)
 - **Forms & Validation**: [React Hook Form v7](https://react-hook-form.com/) + [Zod v3](https://zod.dev/)
-- **API Contract & Client**: [Hey API](https://heyapi.dev/) (`@hey-api/openapi-ts`)
+- **API Contract & Client**: [Hey API](https://heyapi.dev/) (`@hey-api/openapi-ts` with TypeScript SDK, Zod runtime schemas, and TanStack React Query v5 plugins)
 - **Icons & Animation**: [Lucide React](https://lucide.dev/), [Motion](https://motion.dev/)
 - **Component Workbench**: [Storybook 8](https://storybook.js.org/) (`@storybook/react-vite`)
 - **Network Interception**: [MSW v2](https://mswjs.io/) (Mock Service Worker)
@@ -51,7 +51,7 @@ cp .env.example .env.local
 
 ### 3. Generate API Client
 
-Generate the TypeScript client SDK from the OpenAPI specification:
+Generate the TypeScript client SDK, Zod schemas, and TanStack Query options from the OpenAPI specification:
 
 ```bash
 pnpm api:generate
