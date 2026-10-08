@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Architectural Discussions
+    url: https://github.com/tonyrex99/tony-next-starter/discussions
+    about: Ask questions, share ideas, or discuss architecture with the maintainers.

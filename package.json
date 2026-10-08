@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "setup": "node scripts/setup-template.mjs",
+    "template:init": "node scripts/setup-template.mjs",
+    "template:clean": "node scripts/setup-template.mjs --clean-example --yes",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

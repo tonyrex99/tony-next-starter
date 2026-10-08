@@ -42,6 +42,8 @@ Follow this disciplined pipeline from task kickoff to production merge:
 
 | Command                | Action                                                                         | Use Case                                          |
 | :--------------------- | :----------------------------------------------------------------------------- | :------------------------------------------------ |
+| `pnpm setup`           | Interactive wizard: renames project, sets up metadata, manages example feature | Initial project setup from template               |
+| `pnpm template:clean`  | Purges example feature headlessly for a clean architectural slate              | Quick blank project initialization                |
 | `pnpm dev`             | Starts Next.js development server at `http://localhost:3000`                   | Local interactive feature development             |
 | `pnpm build`           | Compiles Next.js for production with static analysis and route tree generation | Pre-release sanity check & production deployment  |
 | `pnpm start`           | Serves the production build locally                                            | Verifying production runtime behavior             |

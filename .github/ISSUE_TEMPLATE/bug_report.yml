@@ -1,0 +1,59 @@
+name: "\uD83D\uDC1B Bug Report"
+description: File a bug report to help us improve the template
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: version
+    attributes:
+      label: Version / Commit
+      description: What version or commit hash of the template are you using?
+      placeholder: e.g., 0.1.0 or git commit sha
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Node & pnpm Version
+      description: What Node.js and pnpm versions are you running?
+      placeholder: e.g., Node v22.16.0, pnpm v10.19.0, Windows / macOS / Linux
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Describe the steps required to reproduce the issue.
+      placeholder: |
+        1. Run 'pnpm install'
+        2. Run 'pnpm dev'
+        3. Navigate to '...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened? (Include error messages, stack traces, or console logs).
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have verified this is not an issue caused by outdated dependencies (`pnpm install`).
+          required: true
+        - label: I checked existing issues to avoid opening a duplicate.
+          required: true

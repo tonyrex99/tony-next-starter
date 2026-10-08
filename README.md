@@ -1,12 +1,67 @@
 # Tony Next.js Application Starter
 
-A production-ready, general-purpose Next.js starter template designed for scalable SaaS platforms, dashboards, internal tools, and complex web applications.
+[![Use this template](https://img.shields.io/badge/GitHub-Use%20this%20template-2ea44f?style=for-the-badge&logo=github)](https://github.com/tonyrex99/tony-next-starter/generate)
+[![CI Pipeline](https://img.shields.io/badge/CI-Passing-brightgreen?style=flat-square)](https://github.com/tonyrex99/tony-next-starter/actions)
+[![Next.js](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react)](https://react.dev/)
+[![HeroUI](https://img.shields.io/badge/HeroUI-v3-000000?style=flat-square)](https://heroui.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+
+A production-ready, general-purpose Next.js GitHub starter template designed for scalable SaaS platforms, dashboards, internal tools, and complex web applications.
 
 Built with a **hybrid feature-oriented architecture**, strict separation of server state from client/UI state, contract-first API code generation, and a complete developer workflow from day one.
 
 ---
 
-## 1. Core Technology Stack
+## 1. Quickstart (Using as a Template)
+
+### Step 1: Create Your Repository
+
+Click the green **[Use this template](https://github.com/tonyrex99/tony-next-starter/generate)** button at the top of this repository (or clone it directly).
+
+### Step 2: Install Dependencies
+
+```bash
+pnpm install
+```
+
+### Step 3: Run the Template Setup Wizard
+
+Run the interactive setup wizard to configure your project name, metadata, environment variables, and choose whether to keep or purge the reference example feature:
+
+```bash
+pnpm setup
+```
+
+The wizard will interactively ask:
+
+1. **Project name** (kebab-case)
+2. **Display title** (e.g., "My SaaS Dashboard")
+3. **Short description**
+4. **Author name**
+5. **Keep or purge reference example feature?** (Allows keeping `src/features/example` as a living guide or removing it for a clean slate)
+6. **Re-initialize Git history?** (Optionally starts a fresh Git history for your new repository)
+
+> **Headless / CI Alternative**: You can also run non-interactively:
+>
+> ```bash
+> pnpm setup --name my-app --clean-example --yes
+> # Or to simply purge the example feature at any time:
+> pnpm template:clean
+> ```
+
+### Step 4: Generate API Client & Start Developing
+
+```bash
+pnpm api:generate
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view your new application.
+
+---
+
+## 2. Core Technology Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org/) (App Router, React Server Components by default)
 - **Runtime & UI**: [React 19](https://react.dev/), [HeroUI v3](https://heroui.com/) (`@heroui/react`)
@@ -26,48 +81,21 @@ Built with a **hybrid feature-oriented architecture**, strict separation of serv
 
 ---
 
-## 2. Requirements
+## 3. Requirements
 
 - **Node.js**: `v20.12.0` or higher (`v22+` recommended)
 - **pnpm**: `v9+` or `v10+`
 
 ---
 
-## 3. Getting Started
-
-### 1. Install Dependencies
-
-```bash
-pnpm install
-```
-
-### 2. Configure Environment Variables
-
-Copy the example environment file and customize values:
-
-```bash
-cp .env.example .env.local
-```
-
-### 3. Generate API Client
-
-Generate the TypeScript client SDK, Zod schemas, and TanStack Query options from the OpenAPI specification:
-
-```bash
-pnpm api:generate
-```
-
-### 4. Start Development Server
-
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view the application.
-
----
-
 ## 4. Developer Commands
+
+### Template Setup & Scaffolding
+
+```bash
+pnpm setup           # Run interactive setup wizard (configure name, metadata, env, purge example)
+pnpm template:clean  # Purge the example feature headlessly for a bare architecture slate
+```
 
 ### Development & Build
 
@@ -159,3 +187,17 @@ The template includes a reference feature in [`src/features/example/`](./src/fea
 - **URL State with `nuqs`**: Search and status query parameters synced to the browser URL
 - **MSW & Storybook Stories**: Isolated mock handlers and component state stories
 - **Vitest & React Testing Library**: Colocated unit tests and component tests
+
+---
+
+## 7. Enabling GitHub Template Repository
+
+To enable the green **"Use this template"** button on GitHub for this repository:
+
+1. Navigate to the repository page on GitHub: [https://github.com/tonyrex99/tony-next-starter](https://github.com/tonyrex99/tony-next-starter).
+2. Go to **Settings** -> **General**.
+3. Under the **Repository name** section, check the box:
+   - `☑ Template repository` ("Whether this repository is a template. Templates let users generate new repositories with the same directory structure and files.")
+4. Click save if prompted.
+
+Now anyone with access can generate a fresh repository with one click!
