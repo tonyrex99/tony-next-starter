@@ -1,7 +1,16 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Button } from "./button";
+import {
+  DrawerRoot,
+  DrawerBackdrop,
+  DrawerContent,
+  DrawerDialog,
+  DrawerHeader,
+  DrawerHeading,
+  DrawerBody,
+  DrawerCloseTrigger,
+} from "@heroui/react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -25,40 +34,41 @@ export function Drawer({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+    <DrawerRoot isOpen={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DrawerBackdrop
+        isDismissable
         onClick={onClose}
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity"
       />
-
-      {/* Drawer Panel */}
-      <div
+      <DrawerContent
+        placement={placement}
         className={cn(
-          "relative z-10 flex h-full w-full max-w-md flex-col bg-content1 shadow-2xl transition-transform border-default-200",
-          placement === "left"
-            ? "mr-auto border-r animate-in slide-in-from-left duration-200"
-            : "ml-auto border-l animate-in slide-in-from-right duration-200",
+          "fixed inset-y-0 z-50 flex h-full w-full max-w-md flex-col bg-card shadow-2xl transition-transform border-border",
+          placement === "left" ? "left-0 border-r" : "right-0 border-l",
           className
         )}
       >
-        {title && (
-          <div className="flex items-center justify-between border-b border-default-200 px-6 py-4">
-            <h3 className="text-lg font-bold text-foreground">{title}</h3>
-            <Button
-              isIconOnly
-              size="sm"
-              variant="ghost"
-              aria-label="Close drawer"
-              onPress={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
+        <DrawerDialog className="flex h-full w-full flex-col">
+          {title && (
+            <DrawerHeader className="flex items-center justify-between border-b border-border px-6 py-4">
+              <DrawerHeading className="text-lg font-semibold text-foreground font-heading">
+                {title}
+              </DrawerHeading>
+              <DrawerCloseTrigger
+                onClick={onClose}
+                className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer transition-colors"
+                aria-label="Close drawer"
+              >
+                <X className="h-4 w-4" />
+              </DrawerCloseTrigger>
+            </DrawerHeader>
+          )}
 
-        <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
-      </div>
-    </div>
+          <DrawerBody className="flex-1 overflow-y-auto px-6 py-5 text-foreground font-sans">
+            {children}
+          </DrawerBody>
+        </DrawerDialog>
+      </DrawerContent>
+    </DrawerRoot>
   );
 }

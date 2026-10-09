@@ -1,23 +1,39 @@
 "use client";
 
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
-import { X } from "lucide-react";
+import { forwardRef, useState, type ReactNode } from "react";
+import { Input as HeroInput } from "@heroui/react";
+import { Eye, EyeOff, X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface InputProps {
   startContent?: ReactNode;
   endContent?: ReactNode;
   isInvalid?: boolean;
   onValueChange?: (value: string) => void;
   isClearable?: boolean;
   onClear?: () => void;
+  showPasswordToggle?: boolean;
   size?: "sm" | "md" | "lg";
+  className?: string;
+  type?: string;
+  value?: string | number | readonly string[];
+  defaultValue?: string | number | readonly string[];
+  placeholder?: string;
+  disabled?: boolean;
+  isDisabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id?: string;
+  name?: string;
+  autoComplete?: string;
+  required?: boolean;
+  [key: string]: any;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       className,
+      type = "text",
       startContent,
       endContent,
       isInvalid = false,
@@ -25,42 +41,55 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onChange,
       isClearable = false,
       onClear,
+      showPasswordToggle = false,
       size = "md",
       value,
+      disabled,
+      isDisabled,
       ...props
     },
     ref
   ) => {
-    const sizeClasses = {
-      sm: "h-8 px-2.5 text-xs",
-      md: "h-10 px-3 text-sm",
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const effectiveType = showPasswordToggle ? (isPasswordVisible ? "text" : "password") : type;
+    const effectiveDisabled = disabled || isDisabled;
+
+    const sizeClasses: Record<string, string> = {
+      sm: "h-9 px-3 text-xs",
+      md: "h-11 px-3.5 text-sm",
       lg: "h-12 px-4 text-base",
-    }[size];
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(e);
       onValueChange?.(e.target.value);
     };
 
+    const hasEndContent = endContent || isClearable || showPasswordToggle;
+
     return (
       <div className="relative flex w-full items-center">
         {startContent && (
-          <div className="pointer-events-none absolute left-3 flex items-center justify-center text-default-400">
+          <div className="pointer-events-none absolute left-3.5 z-10 flex items-center justify-center text-muted-foreground">
             {startContent}
           </div>
         )}
-        <input
+        <HeroInput
           ref={ref}
+          type={effectiveType}
+          disabled={effectiveDisabled}
           {...(value !== undefined ? { value } : {})}
           onChange={handleChange}
           className={cn(
-            "w-full rounded-xl border bg-content1 text-foreground transition-colors placeholder:text-default-400 focus:outline-none focus:ring-1",
+            "w-full rounded-xl border bg-card text-foreground transition-all duration-150",
+            "placeholder:text-muted-foreground focus:outline-none",
+            "disabled:opacity-50 disabled:bg-muted disabled:cursor-not-allowed",
             isInvalid
-              ? "border-danger focus:border-danger focus:ring-danger"
-              : "border-default-200 focus:border-primary focus:ring-primary",
-            startContent && "pl-9",
-            (endContent || isClearable) && "pr-9",
-            sizeClasses,
+              ? "border-danger focus:border-danger focus:ring-2 focus:ring-danger/20"
+              : "border-border hover:border-muted-foreground/40 focus:border-primary focus:ring-2 focus:ring-primary/20",
+            startContent && "pl-10",
+            hasEndContent && "pr-10",
+            sizeClasses[size || "md"],
             className
           )}
           {...props}
@@ -69,13 +98,28 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <button
             type="button"
             onClick={onClear}
-            className="absolute right-3 flex items-center justify-center text-default-400 hover:text-foreground"
+            className="absolute right-3 z-10 flex items-center justify-center text-muted-foreground hover:text-foreground cursor-pointer"
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-4 w-4" />
           </button>
         )}
-        {!isClearable && endContent && (
-          <div className="absolute right-3 flex items-center justify-center text-default-400">
+        {showPasswordToggle && (
+          <button
+            type="button"
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+            aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+            tabIndex={-1}
+            className="absolute right-3 z-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+          >
+            {isPasswordVisible ? (
+              <EyeOff className="h-4.5 w-4.5" />
+            ) : (
+              <Eye className="h-4.5 w-4.5" />
+            )}
+          </button>
+        )}
+        {!isClearable && !showPasswordToggle && endContent && (
+          <div className="absolute right-3 z-10 flex items-center justify-center text-muted-foreground">
             {endContent}
           </div>
         )}

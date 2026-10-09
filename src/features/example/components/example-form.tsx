@@ -92,7 +92,9 @@ export function ExampleForm({ onSuccess, onCancel }: ExampleFormProps) {
                 placeholder="0.00"
                 isInvalid={Boolean(errors.amount)}
                 {...field}
-                onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  field.onChange(parseFloat(e.target.value) || 0)
+                }
               />
             </FormField>
           )}
@@ -107,7 +109,9 @@ export function ExampleForm({ onSuccess, onCancel }: ExampleFormProps) {
             <Select
               options={statusOptions}
               value={field.value}
-              onChange={(e) => field.onChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                field.onChange(e.target.value)
+              }
             />
           </FormField>
         )}

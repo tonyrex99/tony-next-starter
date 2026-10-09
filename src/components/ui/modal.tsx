@@ -1,7 +1,17 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Button } from "./button";
+import {
+  ModalRoot,
+  ModalBackdrop,
+  ModalContainer,
+  ModalDialog,
+  ModalHeader,
+  ModalHeading,
+  ModalBody,
+  ModalFooter,
+  ModalCloseTrigger,
+} from "@heroui/react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -11,7 +21,7 @@ export interface ModalProps {
   title?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "full" | "cover";
   className?: string;
 }
 
@@ -26,52 +36,47 @@ export function Modal({
 }: ModalProps) {
   if (!isOpen) return null;
 
-  const sizeClasses = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-2xl",
-  }[size];
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+    <ModalRoot isOpen={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <ModalBackdrop
+        isDismissable
         onClick={onClose}
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity"
       />
-
-      {/* Modal Dialog */}
-      <div
+      <ModalContainer
+        size={size}
         className={cn(
-          "relative z-10 w-full rounded-2xl border border-default-200 bg-content1 shadow-2xl transition-all",
-          sizeClasses,
+          "fixed inset-0 z-50 flex items-center justify-center p-4",
           className
         )}
       >
-        {title && (
-          <div className="flex items-center justify-between border-b border-default-200 px-6 py-4">
-            <h3 className="text-lg font-bold text-foreground">{title}</h3>
-            <Button
-              isIconOnly
-              size="sm"
-              variant="ghost"
-              aria-label="Close dialog"
-              onPress={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
+        <ModalDialog className="relative z-10 w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl transition-all">
+          {title && (
+            <ModalHeader className="flex items-center justify-between border-b border-border px-6 py-4">
+              <ModalHeading className="text-lg font-semibold text-foreground font-heading">
+                {title}
+              </ModalHeading>
+              <ModalCloseTrigger
+                onClick={onClose}
+                className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer transition-colors"
+                aria-label="Close dialog"
+              >
+                <X className="h-4 w-4" />
+              </ModalCloseTrigger>
+            </ModalHeader>
+          )}
 
-        <div className="px-6 py-5">{children}</div>
+          <ModalBody className="px-6 py-5 text-foreground font-sans">
+            {children}
+          </ModalBody>
 
-        {footer && (
-          <div className="flex items-center justify-end gap-2 border-t border-default-200 px-6 py-4">
-            {footer}
-          </div>
-        )}
-      </div>
-    </div>
+          {footer && (
+            <ModalFooter className="flex items-center justify-end gap-2 border-t border-border px-6 py-4">
+              {footer}
+            </ModalFooter>
+          )}
+        </ModalDialog>
+      </ModalContainer>
+    </ModalRoot>
   );
 }
