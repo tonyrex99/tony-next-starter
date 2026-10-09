@@ -6,11 +6,20 @@
   --font-sans:
     var(--font-sans), "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
+  --font-source:
+    var(--font-sans), "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-source-sans:
+    var(--font-sans), "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   --font-heading:
     var(--font-heading), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
+  --font-inter:
+    var(--font-heading), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
 
-  /* Primary Brand */
+  /* Primary Brand (Alaafia Electric Blue) */
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-active: var(--primary-active);
@@ -23,7 +32,7 @@
   --color-secondary-active: var(--secondary-active);
   --color-secondary-foreground: var(--secondary-foreground);
 
-  /* Success */
+  /* Success (Check Email) */
   --color-success: var(--success);
   --color-success-hover: var(--success-hover);
   --color-success-foreground: var(--success-foreground);
@@ -58,15 +67,15 @@
 :root {
   /* Surface & Base */
   --background: #f8fafc;
-  --foreground: #101828; /* Primary text */
+  --foreground: #101828; /* Primary text colour */
   --card: #ffffff;
   --card-foreground: #101828;
   --muted: #f2f4f7;
-  --muted-foreground: #667085; /* Secondary / Muted text */
+  --muted-foreground: #667085; /* Secondary / Muted text colour */
   --border: #e4e7ec;
   --border-subtle: #f2f4f7;
 
-  /* Primary Brand */
+  /* Primary Brand (Alaafia Electric Blue) */
   --primary: #003ade;
   --primary-hover: #002db3;
   --primary-active: #00238c;
@@ -79,7 +88,7 @@
   --secondary-active: #d0d5dd;
   --secondary-foreground: #101828;
 
-  /* Success */
+  /* Success (Check Email) */
   --success: #00ba55;
   --success-hover: #009d47;
   --success-foreground: #ffffff;

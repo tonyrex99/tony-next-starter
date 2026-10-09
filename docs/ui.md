@@ -39,9 +39,40 @@ To prevent this, the starter encapsulates primary controls into standardized, re
 - `confirm-dialog.tsx`: Pre-built confirmation alert modal with destructive variant handling.
 - `data-table.tsx`: Composable table combining TanStack Table behavior with clean visual aesthetics.
 - `empty-state.tsx` & `loading-state.tsx`: Standard UX fallback containers.
+- `text.tsx`: Unified, polymorphic typography component (`<Text>` and `<Heading>`) supporting dual-font system (Inter + Source Sans 3), 13 design token variants, explicit font/weight overrides, and color tokens.
 - `page-container.tsx` & `page-header.tsx`: Standard page layout wrappers with breadcrumbs and action button slots.
 
 Features should import from `@/components/ui/*` rather than directly importing raw external library primitives.
+
+---
+
+## 3. Dual-Font Typography System
+
+The platform operates on a dual-font architecture:
+
+1. **Inter (`font-inter` / `font-heading`)**:
+   - Primary heading font for structural and high-impact UI elements.
+   - Used for `display` (32px / 41.6px, -0.64px, 600), `title` (24px / 32px, -0.48px, 600), `section` (20px / 30px, 0px, 600), and `<Heading level={1 | 2 | 3 | 4} />`.
+2. **Source Sans 3 (`font-sans` / `font-source`)**:
+   - Default UI and body font across all screens.
+   - Used for `subheading` (16px), `metric` values (24px 600), `body` (14px 400), `label-medium` (14px 500), `label-semibold` (14px 600), `caption` (12px 400), `caption-medium` (12px 500), `caption-semibold` (12px 600), and `micro` (10px 400).
+
+### Font Switching
+
+Every `<Text>` variant has an intelligent default font, but developers can switch to Inter or Source Sans on any variant using `font="inter"` or `font="source"`:
+
+```tsx
+import { Text, Heading } from "@/components/ui/text";
+
+// Default Inter heading:
+<Heading level={1}>Command Center</Heading>
+
+// Default Source Sans 3 metric:
+<Text variant="metric">2,847</Text>
+
+// Metric rendered in Inter:
+<Text variant="metric" font="inter">2,847</Text>
+```
 
 ---
 
