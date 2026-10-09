@@ -2,14 +2,15 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Text, Heading, type TextVariant } from "./text";
 
 const meta: Meta<typeof Text> = {
-  title: "Foundations/Typography",
+  title: "UI/Text",
   component: Text,
+  tags: ["autodocs"],
   parameters: {
     layout: "padded",
     docs: {
       description: {
         component:
-          "Alaafia Design System Typography. Built on a dual-font architecture:\n\n- **Inter**: Used for high-impact headings, titles, section headers, and elements where modern geometric structure is desired.\n- **Source Sans 3**: The primary workhorse font for all body copy, KPI values, input labels, buttons, tables, and micro text.\n\nEvery variant supports the `font=\"inter\" | \"source\"` prop to effortlessly toggle between both fonts.",
+          "Polymorphic typography component for the Alaafia platform. Supports dual fonts (**Inter** and **Source Sans 3**), 13 Figma design variants, flexible weights, semantic colors, and custom element rendering via the `as` prop.",
       },
     },
   },
@@ -31,25 +32,35 @@ const meta: Meta<typeof Text> = {
         "micro",
         "overline",
       ],
+      description: "Visual scale and typography role mapped directly to Figma design tokens.",
     },
     font: {
       control: "inline-radio",
-      options: ["inter", "source"],
+      options: ["inter", "source", "heading", "sans"],
+      description: "Font family override. Default is Inter for headings and Source Sans 3 for body/UI.",
     },
     weight: {
       control: "inline-radio",
       options: ["normal", "medium", "semibold", "bold"],
+      description: "Font weight override.",
     },
     color: {
       control: "select",
-      options: ["default", "muted", "primary", "secondary", "success", "warning", "danger", "inherit"],
+      options: ["default", "muted", "primary", "secondary", "success", "warning", "danger", "white", "inherit"],
+      description: "Semantic color tokens.",
     },
     align: {
       control: "inline-radio",
       options: ["left", "center", "right"],
+      description: "Text alignment.",
     },
     truncate: {
       control: "boolean",
+      description: "Truncate text with an ellipsis when overflowing.",
+    },
+    as: {
+      control: "text",
+      description: "Polymorphic HTML element override (e.g. h1, p, span, label, div).",
     },
   },
 };
@@ -60,250 +71,117 @@ type Story = StoryObj<typeof Text>;
 export const Default: Story = {
   args: {
     variant: "body",
-    children: "The quick brown fox jumps over the lazy dog.",
-    font: "source",
+    children: "Source Sans 3 - 14px / 20px Regular body text",
     color: "default",
   },
 };
 
-const typographyCatalog: Array<{
-  variant: TextVariant;
-  name: string;
-  defaultFont: "Inter" | "Source Sans 3";
-  weight: string;
-  size: string;
-  lineHeight: string;
-  tracking: string;
-  sample: string;
-  usage: string;
-}> = [
-  {
-    variant: "display",
-    name: "Display (H1)",
-    defaultFont: "Inter",
-    weight: "SemiBold 600",
-    size: "32px",
-    lineHeight: "41.6px",
-    tracking: "-0.64px",
-    sample: "Command Center",
-    usage: "Page headers & top-level dashboard titles",
+export const AllVariants: Story = {
+  render: () => {
+    const variants: Array<{ variant: TextVariant; label: string; desc: string }> = [
+      { variant: "display", label: "Display (32px / 41.6px, SemiBold 600 - Inter)", desc: "Command Center header" },
+      { variant: "title", label: "Title (24px / 32px, SemiBold 600 - Inter)", desc: "Auth header / Modal title" },
+      { variant: "section", label: "Section (20px / 30px, SemiBold 600 - Inter)", desc: "Operational Queues / Portfolio Health" },
+      { variant: "subheading", label: "Subheading (16px / 25.6px, Regular 400 - Source Sans 3)", desc: "Operational control center subtitle" },
+      { variant: "metric", label: "Metric Value: 2,847 (24px / 32px, SemiBold 600 - Source Sans 3)", desc: "KPI counts & balance values" },
+      { variant: "body", label: "Body Regular (14px / 20px, Regular 400 - Source Sans 3)", desc: "Standard body text & descriptions" },
+      { variant: "label-medium", label: "Label Medium (14px / 20px, Medium 500 - Source Sans 3)", desc: "Form field labels & button text" },
+      { variant: "label-semibold", label: "Label SemiBold (14px / 20px, SemiBold 600 - Source Sans 3)", desc: "Activity row title & exception heading" },
+      { variant: "caption", label: "Caption Regular (12px / 16px, Regular 400 - Source Sans 3)", desc: "Footers, target counts & metadata" },
+      { variant: "caption-medium", label: "Caption Medium (12px / 16px, Medium 500 - Source Sans 3)", desc: "User name, percent change & link actions" },
+      { variant: "caption-semibold", label: "Caption SemiBold (12px / 16px, SemiBold 600 - Source Sans 3)", desc: "Quick action button count badges" },
+      { variant: "micro", label: "Micro Regular (10px / 12.5px, Regular 400 - Source Sans 3)", desc: "Logo subtitle & navbar role" },
+      { variant: "overline", label: "Overline (11px / 14px, SemiBold 600 Uppercase - Source Sans 3)", desc: "Sidebar category headers" },
+    ];
+
+    return (
+      <div className="flex flex-col gap-6 max-w-4xl">
+        {variants.map((v) => (
+          <div key={v.variant} className="flex flex-col gap-1 pb-4 border-b border-border/50">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] bg-muted px-2 py-0.5 rounded text-muted-foreground font-semibold">
+                {v.variant}
+              </span>
+              <span className="text-xs text-muted-foreground">{v.desc}</span>
+            </div>
+            <Text variant={v.variant}>{v.label}</Text>
+          </div>
+        ))}
+      </div>
+    );
   },
-  {
-    variant: "title",
-    name: "Title (H2)",
-    defaultFont: "Inter",
-    weight: "SemiBold 600",
-    size: "24px",
-    lineHeight: "32px",
-    tracking: "-0.48px",
-    sample: "Welcome back",
-    usage: "Auth modal / card titles & major dialog headings",
-  },
-  {
-    variant: "section",
-    name: "Section (H3)",
-    defaultFont: "Inter",
-    weight: "SemiBold 600",
-    size: "20px",
-    lineHeight: "30px",
-    tracking: "0px",
-    sample: "Operational Queues",
-    usage: "Section headers (Quick Actions, Portfolio Health, Recent Activity)",
-  },
-  {
-    variant: "subheading",
-    name: "Subheading",
-    defaultFont: "Source Sans 3",
-    weight: "Regular 400",
-    size: "16px",
-    lineHeight: "25.6px",
-    tracking: "0px",
-    sample: "Operational control center and system vitals",
-    usage: "Subtitle below page title / lead paragraph",
-  },
-  {
-    variant: "metric",
-    name: "Metric Value",
-    defaultFont: "Source Sans 3",
-    weight: "SemiBold 600",
-    size: "24px",
-    lineHeight: "32px",
-    tracking: "0px",
-    sample: "2,847",
-    usage: "KPI card values, balances (₦14.7k), primary counts",
-  },
-  {
-    variant: "body",
-    name: "Body Regular",
-    defaultFont: "Source Sans 3",
-    weight: "Regular 400",
-    size: "14px",
-    lineHeight: "20px",
-    tracking: "0px",
-    sample: "Loan #LN-2847 approved for ₦50,000 - Customer: Adewale Johnson",
-    usage: "Standard body text, sidebar items, descriptions, duration tags",
-  },
-  {
-    variant: "label-medium",
-    name: "Label Medium",
-    defaultFont: "Source Sans 3",
-    weight: "Medium 500",
-    size: "14px",
-    lineHeight: "20px",
-    tracking: "0px",
-    sample: "Work Email / Remember me / Open Loan Reviews",
-    usage: "Form inputs, button labels, card headers, table column titles",
-  },
-  {
-    variant: "label-semibold",
-    name: "Label SemiBold",
-    defaultFont: "Source Sans 3",
-    weight: "SemiBold 600",
-    size: "14px",
-    lineHeight: "20px",
-    tracking: "0px",
-    sample: "Exception Detected / Loan Approved",
-    usage: "Activity item row titles, exception banners, alert headings",
-  },
-  {
-    variant: "caption",
-    name: "Caption Regular",
-    defaultFont: "Source Sans 3",
-    weight: "Regular 400",
-    size: "12px",
-    lineHeight: "16px",
-    tracking: "0px",
-    sample: "Sarah Okonkwo • 2 minutes ago • 91% of target",
-    usage: "Footers, datepicker triggers, target counters, metadata timestamps",
-  },
-  {
-    variant: "caption-medium",
-    name: "Caption Medium",
-    defaultFont: "Source Sans 3",
-    weight: "Medium 500",
-    size: "12px",
-    lineHeight: "16px",
-    tracking: "0px",
-    sample: "Adebayo Okonkwo • ↑ +3.2% • View Dashboard →",
-    usage: "Navbar username, value change indicators, status pill badges, navigation links",
-  },
-  {
-    variant: "caption-semibold",
-    name: "Caption SemiBold",
-    defaultFont: "Source Sans 3",
-    weight: "SemiBold 600",
-    size: "12px",
-    lineHeight: "16px",
-    tracking: "0px",
-    sample: "15 pending • 4 alerts",
-    usage: "Quick action button count badges, notification count badges",
-  },
-  {
-    variant: "micro",
-    name: "Micro Regular",
-    defaultFont: "Source Sans 3",
-    weight: "Regular 400",
-    size: "10px",
-    lineHeight: "12.5px",
-    tracking: "0px",
-    sample: "Internal Ops • Operations Manager",
-    usage: "Sidebar logo subtitle, navbar user role badge",
-  },
-  {
-    variant: "overline",
-    name: "Overline (Category)",
-    defaultFont: "Source Sans 3",
-    weight: "SemiBold 600",
-    size: "11px",
-    lineHeight: "14px",
-    tracking: "wider",
-    sample: "COMMAND CENTER • VERIFICATION",
-    usage: "Sidebar section categories, table header labels",
-  },
-];
+};
 
 export const DualFontComparison: Story = {
   render: () => (
-    <div className="flex flex-col gap-8 max-w-5xl">
-      <div className="border-b border-border pb-4">
-        <Text variant="display" font="inter">
-          Dual-Font Architecture: Inter vs. Source Sans 3
-        </Text>
-        <Text variant="subheading" color="muted">
-          Compare side-by-side how the exact same text and variant renders in <strong>Inter</strong> vs. <strong>Source Sans 3</strong>.
+    <div className="flex flex-col gap-6 max-w-4xl">
+      <div className="p-4 rounded-lg bg-muted/40 border border-border">
+        <Text variant="label-semibold">Dual-Font System (Inter vs. Source Sans 3)</Text>
+        <Text variant="caption" color="muted">
+          Compare identical text sizes side-by-side using the <code>font</code> prop.
         </Text>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Inter Column */}
-        <div className="flex flex-col gap-4 p-5 rounded-xl border border-border bg-card">
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <span className="font-mono text-xs uppercase px-2.5 py-1 rounded bg-primary/10 text-primary font-semibold">
+        {/* Inter Side */}
+        <div className="p-5 rounded-xl border border-border bg-card flex flex-col gap-4">
+          <div className="pb-2 border-b border-border flex items-center justify-between">
+            <span className="font-mono text-xs bg-primary/10 text-primary px-2 py-0.5 rounded font-semibold">
               font="inter" (Inter)
             </span>
-            <span className="text-xs text-muted-foreground">Headings & Structural Emphasis</span>
+            <span className="text-xs text-muted-foreground">Headings & Structural Text</span>
           </div>
-
           <div className="flex flex-col gap-3">
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">display (32px / 41.6px, 600)</span>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">display (32px)</span>
               <div><Text variant="display" font="inter">Command Center</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">title (24px / 32px, 600)</span>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">title (24px)</span>
               <div><Text variant="title" font="inter">Welcome back</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">section (20px / 30px, 600)</span>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">section (20px)</span>
               <div><Text variant="section" font="inter">Operational Queues</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">metric (24px / 32px, 600)</span>
-              <div><Text variant="metric" font="inter">2,847 (Inter Metric)</Text></div>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">metric in inter (24px)</span>
+              <div><Text variant="metric" font="inter">2,847</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">body (14px / 20px, 400)</span>
-              <div><Text variant="body" font="inter">Standard body copy rendered in Inter font family.</Text></div>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">body in inter (14px)</span>
+              <div><Text variant="body" font="inter">Standard body copy rendered in Inter.</Text></div>
             </div>
           </div>
         </div>
 
-        {/* Source Sans 3 Column */}
-        <div className="flex flex-col gap-4 p-5 rounded-xl border border-border bg-card">
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <span className="font-mono text-xs uppercase px-2.5 py-1 rounded bg-secondary text-secondary-foreground font-semibold">
+        {/* Source Sans 3 Side */}
+        <div className="p-5 rounded-xl border border-border bg-card flex flex-col gap-4">
+          <div className="pb-2 border-b border-border flex items-center justify-between">
+            <span className="font-mono text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded font-semibold">
               font="source" (Source Sans 3)
             </span>
-            <span className="text-xs text-muted-foreground">Body, Forms, KPIs & Metadata</span>
+            <span className="text-xs text-muted-foreground">Body, Forms, Metrics & Meta</span>
           </div>
-
           <div className="flex flex-col gap-3">
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">subheading (16px / 25.6px, 400)</span>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">subheading (16px)</span>
               <div><Text variant="subheading" font="source" color="muted">Operational control center</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">metric (24px / 32px, 600)</span>
-              <div><Text variant="metric" font="source">2,847 (Source Sans Metric)</Text></div>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">metric in source (24px)</span>
+              <div><Text variant="metric" font="source">2,847</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">label-medium (14px / 20px, 500)</span>
-              <div><Text variant="label-medium" font="source">Work Email • Remember me</Text></div>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">label-medium (14px 500)</span>
+              <div><Text variant="label-medium" font="source">Work Email / Remember me</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">label-semibold (14px / 20px, 600)</span>
-              <div><Text variant="label-semibold" font="source">Loan Approved • Exception Detected</Text></div>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">body (14px 400)</span>
+              <div><Text variant="body" font="source">Standard body copy rendered in Source Sans 3.</Text></div>
             </div>
-
-            <div className="border-b border-border/50 pb-2">
-              <span className="text-[10px] uppercase font-mono text-muted-foreground">caption-medium (12px / 16px, 500)</span>
+            <div>
+              <span className="text-[10px] uppercase font-mono text-muted-foreground">caption-medium (12px 500)</span>
               <div><Text variant="caption-medium" font="source">Adebayo Okonkwo • ↑ +3.2%</Text></div>
             </div>
           </div>
@@ -313,243 +191,95 @@ export const DualFontComparison: Story = {
   ),
 };
 
-export const CompleteClassificationTable: Story = {
+export const Colors: Story = {
   render: () => (
-    <div className="flex flex-col gap-8 max-w-5xl">
-      <div className="border-b border-border pb-4">
-        <Text variant="display" font="inter">Typography Token Catalog</Text>
-        <Text variant="subheading" color="muted">
-          All 13 classified design tokens mapped directly from Figma.
-        </Text>
-      </div>
+    <div className="flex flex-col gap-3 max-w-md p-6 bg-card border border-border rounded-xl">
+      <Text variant="section">Text Colors</Text>
+      <Text variant="body" color="default">Default: Primary foreground (#101828)</Text>
+      <Text variant="body" color="muted">Muted: Secondary text (#667085)</Text>
+      <Text variant="body" color="primary">Primary: Alaafia Electric Blue (#003ADE)</Text>
+      <Text variant="body" color="secondary">Secondary: Neutral interactive</Text>
+      <Text variant="body" color="success">Success: Green (#00BA55)</Text>
+      <Text variant="body" color="warning">Warning: Amber (#F59E0B)</Text>
+      <Text variant="body" color="danger">Danger: Red (#EF4444)</Text>
+    </div>
+  ),
+};
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-card">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-border bg-muted/50 text-[12px] font-medium text-muted-foreground uppercase tracking-wider">
-              <th className="py-3 px-4">Variant</th>
-              <th className="py-3 px-4">Default Font</th>
-              <th className="py-3 px-4">Specs</th>
-              <th className="py-3 px-4">Sample Preview</th>
-              <th className="py-3 px-4">Figma Usage</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {typographyCatalog.map((item) => (
-              <tr key={item.variant} className="hover:bg-muted/30 transition-colors">
-                <td className="py-3.5 px-4 align-middle">
-                  <span className="font-mono text-xs bg-muted text-foreground px-2 py-0.5 rounded font-medium">
-                    {item.variant}
-                  </span>
-                </td>
-                <td className="py-3.5 px-4 align-middle text-xs font-semibold whitespace-nowrap">
-                  <span
-                    className={`px-2 py-0.5 rounded text-[11px] ${
-                      item.defaultFont === "Inter"
-                        ? "bg-primary/10 text-primary"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {item.defaultFont}
-                  </span>
-                </td>
-                <td className="py-3.5 px-4 align-middle text-xs text-muted-foreground whitespace-nowrap">
-                  <div>{item.weight}</div>
-                  <div>
-                    {item.size} / {item.lineHeight} ({item.tracking})
-                  </div>
-                </td>
-                <td className="py-3.5 px-4 align-middle">
-                  <Text variant={item.variant}>{item.sample}</Text>
-                </td>
-                <td className="py-3.5 px-4 align-middle text-xs text-muted-foreground max-w-xs">
-                  {item.usage}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+export const Weights: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3 max-w-md p-6 bg-card border border-border rounded-xl">
+      <Text variant="section">Font Weights</Text>
+      <Text variant="body" weight="normal">Normal (400) - Source Sans 3</Text>
+      <Text variant="body" weight="medium">Medium (500) - Source Sans 3</Text>
+      <Text variant="body" weight="semibold">SemiBold (600) - Source Sans 3</Text>
+      <Text variant="body" weight="bold">Bold (700) - Source Sans 3</Text>
+    </div>
+  ),
+};
+
+export const Truncation: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 max-w-xs p-6 bg-card border border-border rounded-xl">
+      <Text variant="label-semibold">Truncated Single-line Text</Text>
+      <div className="p-3 bg-muted rounded-lg border border-border">
+        <Text variant="body" truncate>
+          Loan #LN-2847 approved for ₦50,000 - Customer: Adewale Johnson - Status: Completed
+        </Text>
       </div>
     </div>
   ),
 };
 
-export const DedicatedHeadingComponent: Story = {
+export const RealWorldCardComposition: Story = {
   render: () => (
-    <div className="flex flex-col gap-6 max-w-3xl p-6 bg-card border border-border rounded-xl">
-      <div className="border-b border-border pb-3">
-        <Heading level={2}>Dedicated &lt;Heading /&gt; Component</Heading>
-        <Text variant="subheading" color="muted">
-          Semantic headings preset with <strong>Inter</strong> (SemiBold 600) by default.
-        </Text>
-      </div>
+    <div className="flex flex-col gap-6 max-w-3xl">
+      <Text variant="section" font="inter">Dashboard Cards Real-World Demo</Text>
 
-      <div className="flex flex-col gap-4">
-        <div>
-          <span className="font-mono text-xs text-muted-foreground">&lt;Heading level={1}&gt; (32px / 41.6px, Inter)</span>
-          <Heading level={1}>Level 1: Command Center Header</Heading>
-        </div>
-
-        <div>
-          <span className="font-mono text-xs text-muted-foreground">&lt;Heading level={2}&gt; (24px / 32px, Inter)</span>
-          <Heading level={2}>Level 2: Section / Modal Title</Heading>
-        </div>
-
-        <div>
-          <span className="font-mono text-xs text-muted-foreground">&lt;Heading level={3}&gt; (20px / 30px, Inter)</span>
-          <Heading level={3}>Level 3: Dashboard Sub-section</Heading>
-        </div>
-
-        <div>
-          <span className="font-mono text-xs text-muted-foreground">&lt;Heading level={4}&gt; (16px / 25.6px, Inter)</span>
-          <Heading level={4}>Level 4: Card Header / Detailed Block</Heading>
-        </div>
-      </div>
-    </div>
-  ),
-};
-
-export const RealWorldDashboardPreview: Story = {
-  render: () => (
-    <div className="flex flex-col gap-6 max-w-4xl">
-      <Heading level={3}>Real-World Dashboard Hierarchy</Heading>
-
-      {/* 1. Header Block */}
-      <div className="bg-card border border-border rounded-xl p-6 flex flex-col gap-1">
-        <Text variant="display" font="inter">
-          Command Center
-        </Text>
-        <Text variant="subheading" color="muted">
-          Operational control center
-        </Text>
-      </div>
-
-      {/* 2. Operational Queues & KPI Cards */}
-      <div className="flex flex-col gap-3">
-        <Text variant="section" font="inter">
-          Operational Queues
-        </Text>
-
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="bg-card border border-amber-200 rounded-xl p-4 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Pending Verifications
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric" className="text-amber-600">
-                23
-              </Text>
-              <Text variant="body" color="muted">
-                pending
-              </Text>
-            </div>
+      {/* KPI Card */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
+          <Text variant="body" color="muted">Live Customers</Text>
+          <div className="flex items-baseline gap-2">
+            <Text variant="metric">2,847</Text>
+            <Text variant="caption-medium" className="text-emerald-600">↑ +3.2%</Text>
           </div>
+        </div>
 
-          <div className="bg-card border border-blue-200 rounded-xl p-4 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Pending Loan Reviews
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric" className="text-blue-600">
-                15
-              </Text>
-              <Text variant="body" color="muted">
-                pending
-              </Text>
-            </div>
+        <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
+          <Text variant="body" color="muted">Active Loans</Text>
+          <div className="flex items-baseline gap-2">
+            <Text variant="metric">1,523</Text>
+            <Text variant="caption-medium" className="text-emerald-600">↑ +5.1%</Text>
           </div>
+        </div>
 
-          <div className="bg-card border border-amber-200 rounded-xl p-4 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Unmatched Payments
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric" className="text-amber-600">
-                12
-              </Text>
-              <Text variant="body" color="muted">
-                pending
-              </Text>
-            </div>
-          </div>
-
-          <div className="bg-card border border-rose-200 rounded-xl p-4 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Open Escalations
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric" className="text-rose-600">
-                4
-              </Text>
-              <Text variant="body" color="muted">
-                pending
-              </Text>
-            </div>
+        <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
+          <Text variant="body" color="muted">Repayment Rate</Text>
+          <div className="flex items-baseline gap-2">
+            <Text variant="metric">94.2%</Text>
+            <Text variant="caption-medium" className="text-emerald-600">↑ +0.8%</Text>
           </div>
         </div>
       </div>
 
-      {/* 3. Portfolio Health Metrics */}
-      <div className="flex flex-col gap-3">
-        <Text variant="section" font="inter">
-          Portfolio Health
-        </Text>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Live Customers
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric">2,847</Text>
-              <Text variant="caption-medium" className="text-emerald-600">
-                ↑ +3.2%
-              </Text>
-            </div>
-          </div>
-
-          <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Active Loans
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric">1,523</Text>
-              <Text variant="caption-medium" className="text-emerald-600">
-                ↑ +5.1%
-              </Text>
-            </div>
-          </div>
-
-          <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-2">
-            <Text variant="body" color="muted">
-              Repayment Rate
-            </Text>
-            <div className="flex items-baseline gap-2">
-              <Text variant="metric">94.2%</Text>
-              <Text variant="caption-medium" className="text-emerald-600">
-                ↑ +0.8%
-              </Text>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 4. Financial Integrity Exception */}
-      <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-5 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <Text variant="label-semibold" className="text-amber-900">
-            Exception Detected
+      {/* Activity Item Card */}
+      <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-3">
+        <div className="flex items-center justify-between pb-2 border-b border-border">
+          <Text variant="section" font="inter">Recent Activity</Text>
+          <Text variant="caption-medium" color="primary" className="cursor-pointer hover:underline">
+            View All →
           </Text>
-          <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-            • Needs Attention
-          </span>
         </div>
-        <Text variant="caption" color="muted">
-          Reconciliation Status: 12 unmatched records pending review
-        </Text>
-        <Text variant="caption-medium" className="text-amber-800 hover:underline cursor-pointer">
-          View Dashboard →
-        </Text>
+        <div className="flex flex-col gap-1">
+          <Text variant="label-semibold">Loan Approved</Text>
+          <Text variant="body" color="muted">
+            Loan #LN-2847 approved for ₦50,000 - Customer: Adewale Johnson
+          </Text>
+          <Text variant="caption" color="muted">
+            Sarah Okonkwo • 2 minutes ago
+          </Text>
+        </div>
       </div>
     </div>
   ),
