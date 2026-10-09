@@ -1,9 +1,10 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap");
 
 @theme {
   --font-sans:
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
 
   /* Primary Brand */
@@ -54,26 +55,26 @@
 :root {
   /* Surface & Base */
   --background: #f8fafc;
-  --foreground: #0f172a;
+  --foreground: #101828; /* Primary text */
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --border-subtle: #f1f5f9;
+  --card-foreground: #101828;
+  --muted: #f2f4f7;
+  --muted-foreground: #667085; /* Secondary / Muted text */
+  --border: #e4e7ec;
+  --border-subtle: #f2f4f7;
 
   /* Primary Brand */
-  --primary: #0052ff;
-  --primary-hover: #0047e0;
-  --primary-active: #003dc4;
+  --primary: #003ade;
+  --primary-hover: #002db3;
+  --primary-active: #00238c;
   --primary-foreground: #ffffff;
-  --primary-subtle: #eff4ff;
+  --primary-subtle: #eef4ff;
 
   /* Secondary */
-  --secondary: #f1f5f9;
-  --secondary-hover: #e2e8f0;
-  --secondary-active: #cbd5e1;
-  --secondary-foreground: #0f172a;
+  --secondary: #f2f4f7;
+  --secondary-hover: #e4e7ec;
+  --secondary-active: #d0d5dd;
+  --secondary-foreground: #101828;
 
   /* Success */
   --success: #00ba55;
@@ -104,16 +105,16 @@
   --card: #121215;
   --card-foreground: #f8fafc;
   --muted: #1e293b;
-  --muted-foreground: #94a3b8;
+  --muted-foreground: #98a2b3;
   --border: #27272a;
   --border-subtle: #18181b;
 
   /* Primary Brand */
-  --primary: #0052ff;
-  --primary-hover: #1a65ff;
-  --primary-active: #0047e0;
+  --primary: #003ade;
+  --primary-hover: #1f57ff;
+  --primary-active: #002db3;
   --primary-foreground: #ffffff;
-  --primary-subtle: rgba(0, 82, 255, 0.15);
+  --primary-subtle: rgba(0, 58, 222, 0.15);
 
   /* Secondary */
   --secondary: #1e293b;
