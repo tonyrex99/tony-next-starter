@@ -1,8 +1,9 @@
 import type { Preview } from "@storybook/react";
-import { AppProviders } from "../src/providers";
+import { QueryProvider } from "../src/providers/query-provider";
+import { ThemeProvider } from "../src/providers/theme-provider";
 import "../src/app/globals.css";
 
-// Polyfill process in browser environment for Next.js internal modules
+// Polyfill process in browser environment
 if (typeof window !== "undefined") {
   (window as unknown as { process?: unknown }).process =
     (window as unknown as { process?: unknown }).process || { env: {} };
@@ -26,11 +27,13 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <AppProviders>
-        <div className="p-6 min-h-screen bg-transparent text-foreground flex items-center justify-center">
-          <Story />
-        </div>
-      </AppProviders>
+      <QueryProvider>
+        <ThemeProvider>
+          <div className="p-6 min-h-screen bg-transparent text-foreground flex items-center justify-center">
+            <Story />
+          </div>
+        </ThemeProvider>
+      </QueryProvider>
     ),
   ],
 };

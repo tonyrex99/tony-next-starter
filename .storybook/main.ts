@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
@@ -12,11 +13,32 @@ const config: StorybookConfig = {
     config.plugins = config.plugins || [];
     config.plugins.push(tsconfigPaths());
 
+    // Inject process polyfill script into the very top of iframe.html before any module loads
+    config.plugins.push({
+      name: "vite-plugin-process-polyfill",
+      transformIndexHtml() {
+        return [
+          {
+            tag: "script",
+            attrs: { type: "text/javascript" },
+            children: "window.process = window.process || { env: { NODE_ENV: 'development' } };",
+            injectTo: "head-prepend",
+          },
+        ];
+      },
+    });
+
+    // Alias next/navigation to lightweight mock to prevent Next.js server runtime from leaking into Vite
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "next/navigation": path.resolve(process.cwd(), ".storybook/mocks/next-navigation.ts"),
+    };
+
     config.define = {
       ...config.define,
-      "process.env": "{}",
+      "process.env": JSON.stringify({}),
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
-      process: "({ env: {} })",
       global: "window",
     };
 
