@@ -5,16 +5,142 @@
   --font-sans:
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
+
+  /* Primary Brand */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-subtle: var(--primary-subtle);
+
+  /* Secondary / Neutral Interactive */
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  /* Success */
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-border: var(--success-border);
+
+  /* Warning */
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-border: var(--warning-border);
+
+  /* Danger */
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-border: var(--danger-border);
+
+  /* Neutral Surfaces & Structural Tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
+  /* Surface & Base */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+
+  /* Primary Brand */
+  --primary: #0052ff;
+  --primary-hover: #0047e0;
+  --primary-active: #003dc4;
+  --primary-foreground: #ffffff;
+  --primary-subtle: #eff4ff;
+
+  /* Secondary */
+  --secondary: #f1f5f9;
+  --secondary-hover: #e2e8f0;
+  --secondary-active: #cbd5e1;
+  --secondary-foreground: #0f172a;
+
+  /* Success */
+  --success: #00ba55;
+  --success-hover: #009d47;
+  --success-foreground: #ffffff;
+  --success-subtle: #f0fdf4;
+  --success-border: #bbf7d0;
+
+  /* Warning */
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-foreground: #ffffff;
+  --warning-subtle: #fffbeb;
+  --warning-border: #fde68a;
+
+  /* Danger */
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --danger-foreground: #ffffff;
+  --danger-subtle: #fef2f2;
+  --danger-border: #fecaca;
 }
 
 .dark {
+  /* Surface & Base */
   --background: #09090b;
-  --foreground: #fafafa;
+  --foreground: #f8fafc;
+  --card: #121215;
+  --card-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --border: #27272a;
+  --border-subtle: #18181b;
+
+  /* Primary Brand */
+  --primary: #0052ff;
+  --primary-hover: #1a65ff;
+  --primary-active: #0047e0;
+  --primary-foreground: #ffffff;
+  --primary-subtle: rgba(0, 82, 255, 0.15);
+
+  /* Secondary */
+  --secondary: #1e293b;
+  --secondary-hover: #334155;
+  --secondary-active: #475569;
+  --secondary-foreground: #f8fafc;
+
+  /* Success */
+  --success: #00ba55;
+  --success-hover: #05d463;
+  --success-foreground: #ffffff;
+  --success-subtle: rgba(0, 186, 85, 0.15);
+  --success-border: rgba(0, 186, 85, 0.3);
+
+  /* Warning */
+  --warning: #f59e0b;
+  --warning-hover: #fbbf24;
+  --warning-foreground: #ffffff;
+  --warning-subtle: rgba(245, 158, 11, 0.15);
+  --warning-border: rgba(245, 158, 11, 0.3);
+
+  /* Danger */
+  --danger: #ef4444;
+  --danger-hover: #f87171;
+  --danger-foreground: #ffffff;
+  --danger-subtle: rgba(239, 68, 68, 0.15);
+  --danger-border: rgba(239, 68, 68, 0.3);
 }
 
 body {
